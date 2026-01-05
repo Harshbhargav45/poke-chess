@@ -4,6 +4,11 @@
 
 ![PokeChess Gameplay](assets/gameplay.png)
 
+
+## 🧠 PokeChess Architecture
+
+![PokeChess Architecture Diagram](https://raw.githubusercontent.com/Harshbhargav45/poke-chess/main/assets/Architecture.jpg)
+
 PokeChess is a fully decentralized, on-chain chess game that reimagines the classic strategy game with Pokémon pieces. Built on the **Solana** blockchain using the **Anchor** framework, it ensures every move is verifiable, immutable, and truly owned by the players.
 
 ---
