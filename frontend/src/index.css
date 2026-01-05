@@ -1,0 +1,165 @@
+:root {
+  --bg-color: #1a1a1a;
+  --text-color: #f0f0f0;
+  --primary-color: #646cff;
+  --board-dark: #769656;
+  --board-light: #eeeed2;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+.app {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+  margin-bottom: 0.5rem;
+}
+
+.wallet-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.board-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.board {
+  width: 480px;
+  height: 480px;
+  border: 8px solid #333;
+  border-radius: 4px;
+}
+
+.status {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.status-label {
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+}
+
+.winner-display {
+  color: #fbbf24;
+  font-size: 1.4rem;
+  margin-top: 0.5rem;
+}
+
+.actions {
+  display: flex;
+
+  .actions button {
+    padding: 8px 14px;
+    background: #1e293b;
+    color: white;
+    border-radius: 6px;
+    border: 1px solid #334155;
+    cursor: pointer;
+  }
+}
+
+/* Custom Chess Board Styles */
+.board {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+  width: 480px;
+  height: 480px;
+  border: 8px solid #4a3c31;
+  /* Darker border to match the image tone */
+  border-radius: 4px;
+}
+
+.square {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.square.light {
+  background-color: #eecfa1;
+  /* Light brownish/beige from image */
+}
+
+.square.dark {
+  background-color: #c19a6b;
+  /* Darker brownish/tan from image */
+}
+
+.square.selected {
+  background-color: rgba(255, 255, 0, 0.5);
+  /* Yellow highlight for selection */
+}
+
+.piece {
+  width: 80%;
+  height: 80%;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+/* Rotate hue for black pieces to distinguish them, or keep as is if different images used. 
+   Plan said to use hue-rotate for black pieces if reusing images. */
+.piece.black {
+  filter: hue-rotate(180deg) brightness(0.9);
+}
+
+.my-turn {
+  color: #4ade80;
+  font-weight: bold;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.waiting {
+  color: #fbbf24;
+  font-style: italic;
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
+}
