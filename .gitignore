@@ -3,6 +3,7 @@
 .env.*
 
 .target/
+.anchor/
 target/
 node_modules/
 
@@ -10,6 +11,8 @@ node_modules/
 *.json
 !.eslintrc.json
 !.prettierrc.json
+!package.json
+!tsconfig.json
 
 # OS
 .DS_Store
