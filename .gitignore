@@ -6,6 +6,8 @@
 .anchor/
 target/
 node_modules/
+frontend/dist/
+backend/dist/
 
 # Keys
 *.json
@@ -13,6 +15,7 @@ node_modules/
 !.prettierrc.json
 !package.json
 !tsconfig.json
+!frontend/src/idl/pokechess.json
 
 # OS
 .DS_Store
