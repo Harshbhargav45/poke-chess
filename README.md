@@ -1,100 +1,58 @@
 # PokeChess
 
-> **Chess met Pokémon on the Solana Blockchain.**
+On-chain, Pokémon-flavored classical 32-piece chess built with **Solana + Anchor** and a **React/Vite** client.
 
-![PokeChess Gameplay](assets/gameplay.png)
+![PokeChess Gameplay](assets/gameplay_32_piece.png)
 
+## Features
 
-## 🧠 PokeChess Architecture
+- **Full 32-Piece Chess Implementation:** Classic movement, captures, and turn mechanics natively written in Rust validation logic on Solana.
+- **MagicBlock Ephemeral Rollups:** Toggle sub-second transactions locally out of the box for instantaneous blazingly fast chess mechanics without the latency of normal L1 execution.
+- **Socket.IO Real-time Lobby:** Automatically discover matches and peers looking for open games in a dynamic dashboard.
+- **Strict TypeScript Types:** Complete strictly-typed web3 hooks natively mapping exact IDLs.
+- **Futuristic Dark UI:** Glow grids, floating animated sprites, and highly responsive feedback bounds.
 
-![PokeChess Architecture Diagram](https://raw.githubusercontent.com/Harshbhargav45/poke-chess/main/assets/Architecture.jpg)
+![Lobby Panel](assets/lobby_discovery.png)
 
-PokeChess is a fully decentralized, on-chain chess game that reimagines the classic strategy game with Pokémon pieces. Built on the **Solana** blockchain using the **Anchor** framework, it ensures every move is verifiable, immutable, and truly owned by the players.
+## Structure
 
----
+- `programs/pokechess` – Anchor program (Rust). Handles 32-piece setup, turn enforcement, bounds validation, captures, checks, staking, and payouts.
+- `frontend/` – **TypeScript** React client with Solana Wallet Adapter, on-chain polling, and MagicBlock RPC connect.
+- `backend/` – Socket.IO lobby server for public peer matchmaking.
+- `tests/` – TypeScript tests driven by Anchor to exercise the full lifecycle.
+- `assets/` – Shared imagery.
 
-## 🎮 How It Works (Project Structure)
+## Quick start
 
-This project is a **Monorepo** bridging a high-performance Rust backend with a modern React frontend.
+```bash
+# install all deps
+yarn install
 
-### 1. The Brain: Anchor Program (Rust)
-Located in `programs/pokechess`.
-*   **The Engine**: Acts as the authoritative game server. It validates legal chess moves, handles check/checkmate logic, and manages game state.
-*   **Trustless**: Unlike a traditional server, the "rules" are deployed on-chain. No admin can cheat or revert a move.
-*   **State Management**: Stores the board configuration (8x8 grid), player turns, and staking info in Solana Accounts.
+# build & test program (needs solana + anchor CLI)
+anchor build
+anchor test
 
-### 2. The Face: Frontend (React)
-Located in `frontend/`.
-*   **User Interface**: A beautiful, dark-mode chess board where pieces are 8-bit Pokémon sprites (Pickachu as Pawns, Snorlax as King, etc.).
-*   **Wallet Adapter**: Connects to the user's Phantom/Solflare wallet to sign transactions.
-*   **Interaction**: transforming a user's drag-and-drop action into an RPC call to the Solana blockchain.
+# start the socket.io peer discovery backend on port 8787
+cd backend && yarn install && yarn dev
 
-### 3. The Bridge: TypeScript Tests
-Located in `tests/`.
-*   Simulates game scenarios to ensure the Rust program behaves exactly as expected before deployment.
+# in a separate terminal: run the frontend UI 
+cd frontend && yarn install && yarn dev
+```
 
----
+## How the duel works
 
-## 🕹️ User Story: The Journey
+1) Host creates a game, setting an initial stake (SOL).  
+2) Host stakes → status moves to “waiting for opponent” and broadcasted to the socket.io Lobby.
+3) Opponent clicks your open lobby slot, clicks Join and also stakes → game active!
+4) Players take alternating turns moving up to 16 pieces, verified live.
+5) Capture the enemy's King snorlax. Winner claims the SOL vault!
 
-1.  **Connect**: The player lands on the site and connects their Solana Wallet (e.g., Phantom).
-2.  **Stake & Start**: The player initializes a game, optionally staking SOL constraints to make the match interesting.
-3.  **Play**:
-    *   Player A moves a **Pikachu (Pawn)**.
-    *   The frontend sends a transaction to the **Anchor Program**.
-    *   The Program verifies the move is valid and updates the on-chain board.
-    *   The UI updates in real-time for Player B.
-4.  **Win**: Checkmate your opponent's **Snorlax (King)** to win the game and claim the staked SOL pot!
+## Repo hygiene
 
----
+- Strict IDL configurations live at `frontend/src/idl/`.
+- Wallet auto-connect defaults to **devnet**. Configured `VITE_MAGICBLOCK_RPC` enables the MagicBlock rollup.
+- Set `VITE_LOBBY_URL` to point to your Socket.io `http://localhost:8787` wrapper to enable realtime matchmaking.
 
-## 🚀 Getting Started
+## License
 
-### Prerequisites
-*   Rust & Cargo
-*   Solana Tool Suite
-*   Node.js & Yarn
-*   Anchor Framework
-
-### Installation
-
-1.  **Clone the Repo**
-    ```bash
-    git clone https://github.com/Harshbhargav45/poke-chess.git
-    cd poke-chess
-    ```
-
-2.  **Install Dependencies**
-    ```bash
-    yarn install
-    ```
-
-3.  **Build the Program**
-    ```bash
-    anchor build
-    ```
-
-4.  **Run Tests**
-    ```bash
-    anchor test
-    ```
-
-5.  **Start Frontend** (if applicable)
-    ```bash
-    cd frontend
-    yarn dev
-    ```
-
----
-
-## 🛡️ Security & Privacy
-
-*   **Non-Custodial**: You retain full control of your private keys.
-*   **Open Source**: Verify the code yourself. The program ID and source availability ensures transparency.
-*   **Git Ignored**: Sensitive keys (`*.json`) and environment variables (`.env`) are strictly excluded from the repository.
-
----
-
-## 📜 License
-
-This project is licensed under the MIT License.
+MIT

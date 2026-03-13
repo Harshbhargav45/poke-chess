@@ -1,16 +1,40 @@
-# React + Vite
+# PokeChess Frontend (Vite + React + TS)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A TypeScript client for the on-chain PokeChess program. Built with Vite, React 19, Solana Wallet Adapter, and optional MagicBlock rollup RPC.
 
-Currently, two official plugins are available:
+## Quick start
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```bash
+cd frontend
+yarn install
+yarn dev
+```
 
-## React Compiler
+The app targets Solana **devnet** by default and auto-connects to Phantom/Solflare if available.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Scripts
 
-## Expanding the ESLint configuration
+- `yarn dev` – start Vite dev server
+- `yarn build` – production build to `dist/`
+- `yarn preview` – preview the production build
+- `yarn lint` – run ESLint (flat config)
+- `yarn typecheck` – TS type checking (no emit)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Environment
+
+- `VITE_MAGICBLOCK_RPC` – optional MagicBlock rollup RPC endpoint
+- `VITE_LOBBY_URL` – optional Socket.IO lobby server (e.g. `http://localhost:8787`)
+- No env is required for default devnet; `clusterApiUrl` is the fallback.
+
+## Structure
+
+- `src/components` – board UI, wallet button, action panel, lobby list
+- `src/solana` – program + wallet hooks, IDL
+- `src/hooks` – lobby hooks
+- `src/assets` – pixel Pokémon pieces
+- `src/index.css` – global theme
+
+## Notes
+
+- Only Snorlax pieces move on-chain (the program enforces turns). The UI highlights legal king-style moves for clarity.
+- Wallet Adapter UI styles come from `@solana/wallet-adapter-react-ui/styles.css`.
