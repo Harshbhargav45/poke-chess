@@ -130,6 +130,7 @@ describe("pokechess (lightweight)", () => {
         game: gamePda,
         vault: vaultPda,
         winner: host.publicKey,
+        systemProgram: anchor.web3.SystemProgram.programId,
       })
       .signers([host])
       .rpc();

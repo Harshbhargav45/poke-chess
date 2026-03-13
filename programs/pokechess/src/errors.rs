@@ -12,4 +12,20 @@ pub enum PokeChessError {
     Unauthorized,
     #[msg("Game not finished")]
     GameNotFinished,
+    #[msg("Invalid board index")]
+    InvalidIndex,
+    #[msg("Not your piece")]
+    NotYourPiece,
+    #[msg("Cannot capture own piece")]
+    InvalidDestination,
+    #[msg("Game already has a joiner")]
+    JoinerAlreadySet,
+    #[msg("Host must stake first")]
+    HostStakeRequired,
+    #[msg("Joiner cannot be host")]
+    JoinerIsHost,
+    #[msg("Game not waiting for host stake")]
+    InvalidHostStakePhase,
+    #[msg("Game not waiting for joiner")]
+    InvalidJoinPhase,
 }

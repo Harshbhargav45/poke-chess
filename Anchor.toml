@@ -6,7 +6,7 @@ resolution = true
 skip-lint = false
 
 [programs.devnet]
-pokechess = "B9eHwbDVX9KJp1Cwd4VUygPdtHNkUzfbdREJkywtTpzZ"
+pokechess = "BJkidJiHSTmWFAZkJSaZCc6codPZySCy74LE1dNoi93L"
 
 [registry]
 url = "https://api.apr.dev"
@@ -17,3 +17,5 @@ wallet = "~/.config/solana/id.json"
 
 [scripts]
 test = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 \"tests/**/*.ts\""
+
+[hooks]

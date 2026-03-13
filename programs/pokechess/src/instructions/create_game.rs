@@ -37,8 +37,15 @@ pub fn handler(ctx: Context<CreateGame>, stake_amount: u64) -> Result<()> {
     game.winner = None;
 
     let mut board = [EMPTY; 64];
-    board[4] = WHITE_SNORLAX;
-    board[60] = BLACK_SNORLAX;
+
+    board[0] = WHITE_ROOK; board[1] = WHITE_KNIGHT; board[2] = WHITE_BISHOP; board[3] = WHITE_QUEEN;
+    board[4] = WHITE_KING; board[5] = WHITE_BISHOP; board[6] = WHITE_KNIGHT; board[7] = WHITE_ROOK;
+    for i in 8..16 { board[i] = WHITE_PAWN; }
+
+    for i in 48..56 { board[i] = BLACK_PAWN; }
+    board[56] = BLACK_ROOK; board[57] = BLACK_KNIGHT; board[58] = BLACK_BISHOP; board[59] = BLACK_QUEEN;
+    board[60] = BLACK_KING; board[61] = BLACK_BISHOP; board[62] = BLACK_KNIGHT; board[63] = BLACK_ROOK;
+
     game.board = board;
 
     game.turn = game.host;
