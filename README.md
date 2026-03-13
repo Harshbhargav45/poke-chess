@@ -2,7 +2,7 @@
 
 On-chain, Pokémon-flavored classical 32-piece chess built with **Solana + Anchor** and a **React/Vite** client.
 
-![PokeChess Gameplay](assets/gameplay_32_piece.png)
+![PokeChess Gameplay](assets/gameplay.png)
 
 ## Features
 
@@ -12,7 +12,18 @@ On-chain, Pokémon-flavored classical 32-piece chess built with **Solana + Ancho
 - **Strict TypeScript Types:** Complete strictly-typed web3 hooks natively mapping exact IDLs.
 - **Futuristic Dark UI:** Glow grids, floating animated sprites, and highly responsive feedback bounds.
 
-![Lobby Panel](assets/lobby_discovery.png)
+## Piece Alignments
+
+The classic chess pieces have been uniquely mapped to Pokémon for both sides:
+
+| Piece | White | Black |
+| :--- | :--- | :--- |
+| **King** | Dragonite | Mewtwo |
+| **Queen** | Charizard | Venusaur |
+| **Rook** | Snorlax | Blastoise |
+| **Bishop** | Alakazam | Tyranitar |
+| **Knight** | Arcanine | Gengar |
+| **Pawn** | Pikachu | Squirtle |
 
 ## Structure
 
@@ -45,7 +56,7 @@ cd frontend && yarn install && yarn dev
 2) Host stakes → status moves to “waiting for opponent” and broadcasted to the socket.io Lobby.
 3) Opponent clicks your open lobby slot, clicks Join and also stakes → game active!
 4) Players take alternating turns moving up to 16 pieces, verified live.
-5) Capture the enemy's King snorlax. Winner claims the SOL vault!
+5) Capture the enemy's King (Dragonite or Mewtwo). Winner claims the SOL vault!
 
 ## Repo hygiene
 
