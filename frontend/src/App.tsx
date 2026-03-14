@@ -54,7 +54,7 @@ export default function App() {
                   <p className="eyebrow">On-chain chess × Pokémon</p>
                   <h1>PokeChess</h1>
                   <p className="lede">
-                    Duel with Snorlax kings, stake SOL, and let Solana verify
+                    Duel with Dragonite and Mewtwo kings, stake SOL, and let Solana verify
                     every move. No servers. No custodians. Just pure on-chain
                     play.
                   </p>
@@ -73,7 +73,7 @@ export default function App() {
                   <ol>
                     <li>Host creates a game & stakes SOL</li>
                     <li>Opponent joins and stakes</li>
-                    <li>Snorlax duel — your turn is enforced on-chain</li>
+                    <li>Dragonite vs Mewtwo duel — your turn is enforced on-chain</li>
                     <li>Winner claims the vault</li>
                   </ol>
                 </div>

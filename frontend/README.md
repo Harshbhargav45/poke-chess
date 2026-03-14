@@ -36,5 +36,5 @@ The app targets Solana **devnet** by default and auto-connects to Phantom/Solfla
 
 ## Notes
 
-- Only Snorlax pieces move on-chain (the program enforces turns). The UI highlights legal king-style moves for clarity.
+- Full classical 32-piece movement is validated on-chain (the program enforces turns).
 - Wallet Adapter UI styles come from `@solana/wallet-adapter-react-ui/styles.css`.

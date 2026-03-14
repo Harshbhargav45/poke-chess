@@ -1,11 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { usePokechess } from "../solana/usePokechess";
 
-import bulbasaur from "../assets/pieces/bulbasaur.png";
-import charizard from "../assets/pieces/charizard.png";
-import pikachu from "../assets/pieces/pikachu.png";
-import snorlax from "../assets/pieces/snorlax.png";
-import squirtle from "../assets/pieces/squirtle.png";
+// Using PokeAPI for varied sprites
+// Mapping white and black pieces to unique Pokemon for variety
 
 const EMPTY = 0;
 const PAWN = 1;
@@ -128,23 +125,42 @@ export default function ChessBoard() {
     const color = (value & WHITE) === WHITE ? "w" : "b";
     const type = value & 7;
 
-    let src = snorlax;
-    let label = "Piece";
-    switch (type) {
-      case PAWN: src = pikachu; label = "Pawn"; break;
-      case KNIGHT: src = bulbasaur; label = "Knight"; break;
-      case BISHOP: src = squirtle; label = "Bishop"; break;
-      case ROOK: src = snorlax; label = "Rook"; break;
-      case QUEEN: src = charizard; label = "Queen"; break;
-      case KING: src = snorlax; label = "King"; break;
-    }
+    const getPokeData = (color: string, type: number) => {
+      if (color === 'w') {
+        switch (type) {
+          case PAWN: return { id: 25, label: "Pikachu (Pawn)" };
+          case KNIGHT: return { id: 59, label: "Arcanine (Knight)" };
+          case BISHOP: return { id: 65, label: "Alakazam (Bishop)" };
+          case ROOK: return { id: 143, label: "Snorlax (Rook)" };
+          case QUEEN: return { id: 6, label: "Charizard (Queen)" };
+          case KING: return { id: 149, label: "Dragonite (King)" };
+        }
+      } else {
+        switch (type) {
+          case PAWN: return { id: 7, label: "Squirtle (Pawn)" };
+          case KNIGHT: return { id: 94, label: "Gengar (Knight)" };
+          case BISHOP: return { id: 248, label: "Tyranitar (Bishop)" };
+          case ROOK: return { id: 9, label: "Blastoise (Rook)" };
+          case QUEEN: return { id: 3, label: "Venusaur (Queen)" };
+          case KING: return { id: 150, label: "Mewtwo (King)" };
+        }
+      }
+      return { id: 0, label: "" };
+    };
+
+    const { id, label } = getPokeData(color, type);
+    const src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
 
     return (
-      <img
-        src={src}
-        alt={`${color === "w" ? "White" : "Black"} ${label}`}
-        className={`piece ${color === "b" ? "black" : "white"} p-${type}`}
-      />
+      <div className={`piece-container ${color === "b" ? "black" : "white"}`}>
+        <img
+          src={src}
+          alt={label}
+          className={`piece p-${type}`}
+          title={label}
+        />
+        <span className="piece-label">{label.split(' ')[1].replace(/[()]/g, '')}</span>
+      </div>
     );
   };
 

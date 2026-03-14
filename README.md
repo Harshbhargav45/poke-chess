@@ -2,7 +2,7 @@
 
 On-chain, Pokémon-flavored classical 32-piece chess built with **Solana + Anchor** and a **React/Vite** client.
 
-![PokeChess Gameplay](assets/gameplay.png)
+![PokeChess Gameplay (Retro Update)](assets/retro_gameplay.png)
 
 ## Features
 
@@ -57,12 +57,6 @@ cd frontend && yarn install && yarn dev
 3) Opponent clicks your open lobby slot, clicks Join and also stakes → game active!
 4) Players take alternating turns moving up to 16 pieces, verified live.
 5) Capture the enemy's King (Dragonite or Mewtwo). Winner claims the SOL vault!
-
-## Repo hygiene
-
-- Strict IDL configurations live at `frontend/src/idl/`.
-- Wallet auto-connect defaults to **devnet**. Configured `VITE_MAGICBLOCK_RPC` enables the MagicBlock rollup.
-- Set `VITE_LOBBY_URL` to point to your Socket.io `http://localhost:8787` wrapper to enable realtime matchmaking.
 
 ## License
 
