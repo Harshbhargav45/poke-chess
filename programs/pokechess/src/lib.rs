@@ -26,8 +26,8 @@ pub mod pokechess {
         stake::join_and_stake(ctx)
     }
 
-    pub fn make_move(ctx: Context<MakeMove>, from: u8, to: u8) -> Result<()> {
-        gameplay::make_move(ctx, from, to)
+    pub fn make_move(ctx: Context<MakeMove>, from: u8, to: u8, promotion_piece: Option<u8>) -> Result<()> {
+        gameplay::make_move(ctx, from, to, promotion_piece)
     }
 
     pub fn claim_reward(ctx: Context<ClaimReward>) -> Result<()> {
