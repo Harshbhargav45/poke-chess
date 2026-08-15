@@ -54,6 +54,10 @@ export default function ChessBoard() {
   const statusLabel = useMemo(() => {
     if (!gameAccount) return "No game";
     if (gameAccount.status.finished) return "Game Over";
+    if (gameAccount.status.claimed) return "Claimed";
+    if (gameAccount.status.cancelled) return "Cancelled";
+    if (gameAccount.status.draw) return "Draw";
+    if (gameAccount.status.inCheck) return "In Check!";
     if (gameAccount.status.active) return "Active";
     if (gameAccount.status.waitingForJoiner) return "Waiting for opponent";
     if (gameAccount.status.waitingForHostStake) return "Stake to start";

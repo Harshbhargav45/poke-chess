@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { useAnchorWallet, useConnection } from "@solana/wallet-adapter-react";
 import { Program, AnchorProvider, web3, BN } from "@coral-xyz/anchor";
-import { PublicKey } from "@solana/web3.js";
+import { PublicKey, Transaction, Connection } from "@solana/web3.js";
+import { sendMagicTransaction } from "magic-router-sdk";
 import { Buffer } from "buffer";
 import { Pokechess } from "../idl/pokechess";
 import idl from "../idl/pokechess.json";
@@ -10,7 +11,11 @@ type GameStatus = {
   waitingForHostStake?: {};
   waitingForJoiner?: {};
   active?: {};
+  inCheck?: {};
   finished?: {};
+  claimed?: {};
+  cancelled?: {};
+  draw?: {};
 };
 
 export type GameAccount = {
@@ -23,10 +28,12 @@ export type GameAccount = {
   stakeAmount: BN;
   gameBump: number;
   vaultBump: number;
+  isDelegated: boolean;
 };
 
 const PROGRAM_ID = new PublicKey((idl as { address: string }).address);
 const POLL_MS = 6_000;
+const MAGIC_ROUTER_URL = "https://devnet-router.magicblock.app";
 
 export function usePokechess() {
   const { connection } = useConnection();
@@ -36,6 +43,7 @@ export function usePokechess() {
   const [gamePda, setGamePda] = useState<PublicKey | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [routerConnection, setRouterConnection] = useState<Connection | null>(null);
 
   const findGameAddress = (hostKey: PublicKey) => {
     const [pda] = PublicKey.findProgramAddressSync(
@@ -55,6 +63,9 @@ export function usePokechess() {
 
       const pda = findGameAddress(wallet.publicKey);
       fetchGame(pda, prog);
+
+      const rc = new Connection(MAGIC_ROUTER_URL, "confirmed");
+      setRouterConnection(rc);
     }
   }, [wallet, connection]);
 
@@ -79,6 +90,16 @@ export function usePokechess() {
     }
   };
 
+  const sendTx = async (tx: Transaction) => {
+    if (!routerConnection || !wallet || !wallet.signTransaction) {
+      throw new Error("Magic Router not initialized");
+    }
+
+    const signedTx = await wallet.signTransaction(tx);
+    const sig = await sendMagicTransaction(routerConnection, signedTx, []);
+    return sig;
+  };
+
   const createGame = async (stakeAmountSol?: number) => {
     if (!program || !wallet) return;
     const parsed = Number(stakeAmountSol);
@@ -98,7 +119,7 @@ export function usePokechess() {
 
       const lamports = new BN(parsed * web3.LAMPORTS_PER_SOL);
 
-      await program.methods
+      const tx = await program.methods
         .createGame(lamports)
         .accounts({
           game: pda,
@@ -106,8 +127,9 @@ export function usePokechess() {
           host: wallet.publicKey,
           systemProgram: web3.SystemProgram.programId,
         } as any)
-        .rpc();
+        .transaction();
 
+      await sendTx(tx);
       await fetchGame(pda, program);
     } catch (err) {
       console.error(err);
@@ -125,7 +147,8 @@ export function usePokechess() {
         [Buffer.from("vault"), gamePda.toBuffer()],
         PROGRAM_ID
       );
-      await program.methods
+
+      const tx = await program.methods
         .stakeHost()
         .accounts({
           game: gamePda,
@@ -133,7 +156,9 @@ export function usePokechess() {
           host: wallet.publicKey,
           systemProgram: web3.SystemProgram.programId,
         } as any)
-        .rpc();
+        .transaction();
+
+      await sendTx(tx);
       await fetchGame(gamePda, program);
     } catch (err) {
       console.error(err);
@@ -152,7 +177,8 @@ export function usePokechess() {
         [Buffer.from("vault"), pda.toBuffer()],
         PROGRAM_ID
       );
-      await program.methods
+
+      const tx = await program.methods
         .joinAndStake()
         .accounts({
           game: pda,
@@ -160,8 +186,9 @@ export function usePokechess() {
           joiner: wallet.publicKey,
           systemProgram: web3.SystemProgram.programId,
         } as any)
-        .rpc();
+        .transaction();
 
+      await sendTx(tx);
       setGamePda(pda);
       await fetchGame(pda, program);
     } catch (err) {
@@ -172,17 +199,19 @@ export function usePokechess() {
     }
   };
 
-  const makeMove = async (from, to) => {
+  const makeMove = async (from: number, to: number) => {
     if (!program || !gamePda || !wallet) return;
     setLoading(true);
     try {
-      await program.methods
+      const tx = await program.methods
         .makeMove(from, to)
         .accounts({
           game: gamePda,
           player: wallet.publicKey,
         } as any)
-        .rpc();
+        .transaction();
+
+      await sendTx(tx);
       await fetchGame(gamePda, program);
     } catch (err) {
       console.error(err);
@@ -200,14 +229,152 @@ export function usePokechess() {
         [Buffer.from("vault"), gamePda.toBuffer()],
         PROGRAM_ID
       );
-      await program.methods
+
+      const tx = await program.methods
         .claimReward()
         .accounts({
           game: gamePda,
           vault,
           winner: wallet.publicKey,
         } as any)
-        .rpc();
+        .transaction();
+
+      await sendTx(tx);
+      await fetchGame(gamePda, program);
+    } catch (err) {
+      console.error(err);
+      setError(err instanceof Error ? err.message : String(err));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const cancelGame = async () => {
+    if (!program || !gamePda || !wallet) return;
+    setLoading(true);
+    try {
+      const [vault] = PublicKey.findProgramAddressSync(
+        [Buffer.from("vault"), gamePda.toBuffer()],
+        PROGRAM_ID
+      );
+
+      const tx = await program.methods
+        .cancelGame()
+        .accounts({
+          game: gamePda,
+          vault,
+          host: wallet.publicKey,
+          systemProgram: web3.SystemProgram.programId,
+        } as any)
+        .transaction();
+
+      await sendTx(tx);
+      await fetchGame(gamePda, program);
+    } catch (err) {
+      console.error(err);
+      setError(err instanceof Error ? err.message : String(err));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const resign = async () => {
+    if (!program || !gamePda || !wallet) return;
+    setLoading(true);
+    try {
+      const tx = await program.methods
+        .resign()
+        .accounts({
+          game: gamePda,
+          player: wallet.publicKey,
+        } as any)
+        .transaction();
+
+      await sendTx(tx);
+      await fetchGame(gamePda, program);
+    } catch (err) {
+      console.error(err);
+      setError(err instanceof Error ? err.message : String(err));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const delegateGame = async () => {
+    if (!program || !gamePda || !wallet) return;
+    setLoading(true);
+    try {
+      const [bufferPda] = PublicKey.findProgramAddressSync(
+        [Buffer.from("buffer"), gamePda.toBuffer()],
+        PROGRAM_ID
+      );
+      const [delegationRecordPda] = PublicKey.findProgramAddressSync(
+        [Buffer.from("delegation_record"), gamePda.toBuffer()],
+        PROGRAM_ID
+      );
+      const [delegationMetadataPda] = PublicKey.findProgramAddressSync(
+        [Buffer.from("delegation_metadata"), gamePda.toBuffer()],
+        PROGRAM_ID
+      );
+
+      const delegationProgram = new PublicKey("DELeGGvXpWV2fqJUhqcF5ZSYMS4JTLjteaAMARRSaeSh");
+
+      const tx = await program.methods
+        .delegateGame()
+        .accounts({
+          game: gamePda,
+          host: wallet.publicKey,
+          delegationProgram,
+          bufferPda,
+          delegationRecordPda,
+          delegationMetadataPda,
+          systemProgram: web3.SystemProgram.programId,
+        } as any)
+        .transaction();
+
+      await sendTx(tx);
+      await fetchGame(gamePda, program);
+    } catch (err) {
+      console.error(err);
+      setError(err instanceof Error ? err.message : String(err));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const undelegateGame = async () => {
+    if (!program || !gamePda || !wallet) return;
+    setLoading(true);
+    try {
+      const [bufferPda] = PublicKey.findProgramAddressSync(
+        [Buffer.from("buffer"), gamePda.toBuffer()],
+        PROGRAM_ID
+      );
+      const [delegationRecordPda] = PublicKey.findProgramAddressSync(
+        [Buffer.from("delegation_record"), gamePda.toBuffer()],
+        PROGRAM_ID
+      );
+      const [delegationMetadataPda] = PublicKey.findProgramAddressSync(
+        [Buffer.from("delegation_metadata"), gamePda.toBuffer()],
+        PROGRAM_ID
+      );
+
+      const delegationProgram = new PublicKey("DELeGGvXpWV2fqJUhqcF5ZSYMS4JTLjteaAMARRSaeSh");
+
+      const tx = await program.methods
+        .undelegateGame()
+        .accounts({
+          game: gamePda,
+          host: wallet.publicKey,
+          delegationProgram,
+          bufferPda,
+          delegationRecordPda,
+          delegationMetadataPda,
+          systemProgram: web3.SystemProgram.programId,
+        } as any)
+        .transaction();
+
+      await sendTx(tx);
       await fetchGame(gamePda, program);
     } catch (err) {
       console.error(err);
@@ -264,6 +431,10 @@ export function usePokechess() {
     joinAndStake,
     makeMove,
     claimReward,
+    cancelGame,
+    resign,
+    delegateGame,
+    undelegateGame,
     refreshGame,
     resetLocal,
     wallet,

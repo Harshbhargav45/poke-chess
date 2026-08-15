@@ -19,6 +19,10 @@ export default function GameActions({
     stakeHost,
     joinAndStake,
     claimReward,
+    cancelGame,
+    resign,
+    delegateGame,
+    undelegateGame,
     refreshGame,
     resetLocal,
     loading,
@@ -31,11 +35,15 @@ export default function GameActions({
 
   const [stake, setStake] = useState("0.1");
 
-  const gameIsActive = !!gameAccount && gameAccount.status.active;
+  const gameIsActive = !!gameAccount && (gameAccount.status.active || gameAccount.status.inCheck);
   const needsHostStake = !!gameAccount && gameAccount.status.waitingForHostStake;
   const waitingForJoiner = !!gameAccount && gameAccount.status.waitingForJoiner;
   const finished = !!gameAccount && gameAccount.status.finished;
+  const canCancel = !!gameAccount && (gameAccount.status.waitingForHostStake || gameAccount.status.waitingForJoiner);
+  const canResign = !!gameAccount && (gameAccount.status.active || gameAccount.status.inCheck);
   const canJoin = waitingForJoiner || (!gameAccount && hostKey.length > 0);
+  const canDelegate = !!gameAccount && !gameAccount.isDelegated && (gameAccount.status.active || gameAccount.status.inCheck || gameAccount.status.waitingForJoiner);
+  const canUndelegate = !!gameAccount && gameAccount.isDelegated;
 
   return (
     <div className="actions">
@@ -132,24 +140,60 @@ export default function GameActions({
           <div className="btn-row">
             <button
               className="btn ghost"
-              onClick={() => refreshGame(hostKey || undefined)}
+              onClick={refreshGame}
+              disabled={!gamePda}
             >
-              Refresh state
+              Refresh
             </button>
             <button
               className="btn ghost"
-              onClick={() => {
-                if (wallet?.publicKey) {
-                  onRemoveAdvert?.(wallet.publicKey.toString());
-                }
-                resetLocal();
-              }}
+              onClick={resetLocal}
             >
-              Reset view
+              Reset
+            </button>
+          </div>
+        </div>
+
+        <div className="card action-card">
+          <p className="eyebrow">Control</p>
+          <h3>Game actions</h3>
+          <p className="muted">Cancel, resign, or manage delegation.</p>
+          <div className="btn-row">
+            <button
+              className="btn danger"
+              onClick={cancelGame}
+              disabled={!canCancel || !isHost}
+            >
+              Cancel game
+            </button>
+            <button
+              className="btn danger"
+              onClick={resign}
+              disabled={!canResign}
+            >
+              Resign
+            </button>
+          </div>
+          <div className="btn-row" style={{ marginTop: 8 }}>
+            <button
+              className="btn primary"
+              onClick={delegateGame}
+              disabled={!canDelegate}
+              title="Delegate to MagicBlock ER for instant moves"
+            >
+              Delegate to ER
+            </button>
+            <button
+              className="btn ghost"
+              onClick={undelegateGame}
+              disabled={!canUndelegate}
+              title="Undelegate and commit state back to L1"
+            >
+              Undelegate
             </button>
           </div>
           <p className="muted tiny">
-            Game PDA: {gamePda ? gamePda.toString() : "—"}
+            ER: {gameAccount?.isDelegated ? "Active" : "Inactive"} • PDA: {gamePda ? gamePda.toString().slice(0, 8) + "..." : "—"}
           </p>
         </div>
       </div>
