@@ -5,6 +5,7 @@ pub enum GameStatus {
     WaitingForHostStake,
     WaitingForJoiner,
     Active,
+    InCheck,
     Finished,
     Claimed,
     Cancelled,

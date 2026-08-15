@@ -37,4 +37,8 @@ pub mod pokechess {
     pub fn cancel_game(ctx: Context<CancelGame>) -> Result<()> {
         cancel::cancel_game(ctx)
     }
+
+    pub fn resign(ctx: Context<Resign>) -> Result<()> {
+        resign::resign(ctx)
+    }
 }
