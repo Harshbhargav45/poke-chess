@@ -59,6 +59,15 @@ pub fn handler(ctx: Context<CreateGame>, stake_amount: u64) -> Result<()> {
     game.vault_bump = ctx.bumps.vault;
     game.is_delegated = false;
 
+    game.has_king_moved = false;
+    game.has_white_kingside_rook_moved = false;
+    game.has_white_queenside_rook_moved = false;
+    game.has_black_kingside_rook_moved = false;
+    game.has_black_queenside_rook_moved = false;
+    game.en_passant_square = None;
+    game.last_move_from = None;
+    game.last_move_to = None;
+
     ctx.accounts.vault.game = game.key();
     ctx.accounts.vault.bump = game.vault_bump;
 

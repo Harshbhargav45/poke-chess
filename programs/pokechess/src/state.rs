@@ -26,11 +26,22 @@ pub struct GameAccount {
     pub game_bump: u8,
     pub vault_bump: u8,
     pub is_delegated: bool,
+
+    // Chess rule state
+    pub has_king_moved: bool,
+    pub has_white_kingside_rook_moved: bool,
+    pub has_white_queenside_rook_moved: bool,
+    pub has_black_kingside_rook_moved: bool,
+    pub has_black_queenside_rook_moved: bool,
+    pub en_passant_square: Option<u8>,
+    pub last_move_from: Option<u8>,
+    pub last_move_to: Option<u8>,
 }
 
 impl GameAccount {
     pub const SIZE: usize =
-        8 + 32 + (1 + 32) + (1 + 32) + 64 + 32 + 1 + 8 + 1 + 1 + 1;
+        8 + 32 + (1 + 32) + (1 + 32) + 64 + 32 + 1 + 8 + 1 + 1 + 1
+        + 1 + 1 + 1 + 1 + 1 + (1 + 1) + (1 + 1) + (1 + 1);
 }
 
 #[account]
