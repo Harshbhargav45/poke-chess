@@ -25,11 +25,12 @@ pub struct GameAccount {
     pub stake_amount: u64,
     pub game_bump: u8,
     pub vault_bump: u8,
+    pub is_delegated: bool,
 }
 
 impl GameAccount {
     pub const SIZE: usize =
-        8 + 32 + (1 + 32) + (1 + 32) + 64 + 32 + 1 + 8 + 1 + 1;
+        8 + 32 + (1 + 32) + (1 + 32) + 64 + 32 + 1 + 8 + 1 + 1 + 1;
 }
 
 #[account]

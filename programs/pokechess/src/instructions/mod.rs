@@ -5,6 +5,8 @@ pub mod claim;
 pub mod cancel;
 pub mod resign;
 pub mod close;
+pub mod delegate;
+pub mod undelegate;
 
 pub use create_game::*;
 pub use stake::*;
@@ -13,3 +15,5 @@ pub use claim::*;
 pub use cancel::*;
 pub use resign::*;
 pub use close::*;
+pub use delegate::*;
+pub use undelegate::*;

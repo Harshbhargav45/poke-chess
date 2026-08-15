@@ -45,4 +45,12 @@ pub mod pokechess {
     pub fn close_game(ctx: Context<CloseGame>) -> Result<()> {
         close::close_game(ctx)
     }
+
+    pub fn delegate_game(ctx: Context<DelegateGame>) -> Result<()> {
+        delegate::delegate_game(ctx)
+    }
+
+    pub fn undelegate_game(ctx: Context<UndelegateGame>) -> Result<()> {
+        undelegate::undelegate_game(ctx)
+    }
 }

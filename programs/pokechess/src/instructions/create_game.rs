@@ -57,6 +57,7 @@ pub fn handler(ctx: Context<CreateGame>, stake_amount: u64) -> Result<()> {
     game.stake_amount = stake_amount;
     game.game_bump = ctx.bumps.game;
     game.vault_bump = ctx.bumps.vault;
+    game.is_delegated = false;
 
     ctx.accounts.vault.game = game.key();
     ctx.accounts.vault.bump = game.vault_bump;
