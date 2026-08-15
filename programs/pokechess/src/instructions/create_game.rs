@@ -1,6 +1,7 @@
 use anchor_lang::prelude::*;
 use crate::state::*;
 use crate::constants::*;
+use crate::errors::PokeChessError;
 
 #[derive(Accounts)]
 #[instruction(stake_amount: u64)]
@@ -30,6 +31,9 @@ pub struct CreateGame<'info> {
 }
 
 pub fn handler(ctx: Context<CreateGame>, stake_amount: u64) -> Result<()> {
+    require!(stake_amount >= MIN_STAKE_LAMPORTS, PokeChessError::StakeTooLow);
+    require!(stake_amount <= MAX_STAKE_LAMPORTS, PokeChessError::StakeTooHigh);
+
     let game = &mut ctx.accounts.game;
 
     game.host = ctx.accounts.host.key();

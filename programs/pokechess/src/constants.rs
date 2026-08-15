@@ -25,3 +25,6 @@ pub const BLACK_QUEEN: u8 = BLACK | QUEEN;
 pub const BLACK_KING: u8 = BLACK | KING;
 
 pub const BOARD_SIZE: usize = 64;
+
+pub const MIN_STAKE_LAMPORTS: u64 = 10_000_000; // 0.01 SOL
+pub const MAX_STAKE_LAMPORTS: u64 = 100_000_000_000; // 100 SOL
