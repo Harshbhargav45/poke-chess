@@ -26,6 +26,7 @@ pub fn claim_reward(ctx: Context<ClaimReward>) -> Result<()> {
 
     require!(game.status == GameStatus::Finished, PokeChessError::GameNotFinished);
     require!(Some(ctx.accounts.winner.key()) == game.winner, PokeChessError::Unauthorized);
+    require!(game.winner.is_some(), PokeChessError::NoWinner);
 
     let vault_info = ctx.accounts.vault.to_account_info();
 
@@ -51,6 +52,9 @@ pub fn claim_reward(ctx: Context<ClaimReward>) -> Result<()> {
         ),
         amount,
     )?;
+
+    let game = &mut ctx.accounts.game;
+    game.status = GameStatus::Claimed;
 
     Ok(())
 }
