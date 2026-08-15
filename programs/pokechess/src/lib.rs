@@ -41,4 +41,8 @@ pub mod pokechess {
     pub fn resign(ctx: Context<Resign>) -> Result<()> {
         resign::resign(ctx)
     }
+
+    pub fn close_game(ctx: Context<CloseGame>) -> Result<()> {
+        close::close_game(ctx)
+    }
 }
