@@ -9,432 +9,161 @@
   "instructions": [
     {
       "name": "claim_reward",
-      "discriminator": [
-        149,
-        95,
-        181,
-        242,
-        94,
-        90,
-        158,
-        162
-      ],
+      "discriminator": [149, 95, 181, 242, 94, 90, 158, 162],
       "accounts": [
-        {
-          "name": "game",
-          "writable": true,
-          "pda": {
-            "seeds": [
-              {
-                "kind": "const",
-                "value": [
-                  103,
-                  97,
-                  109,
-                  101
-                ]
-              },
-              {
-                "kind": "account",
-                "path": "game.host",
-                "account": "GameAccount"
-              }
-            ]
-          }
-        },
-        {
-          "name": "vault",
-          "writable": true,
-          "pda": {
-            "seeds": [
-              {
-                "kind": "const",
-                "value": [
-                  118,
-                  97,
-                  117,
-                  108,
-                  116
-                ]
-              },
-              {
-                "kind": "account",
-                "path": "game"
-              }
-            ]
-          }
-        },
-        {
-          "name": "winner",
-          "writable": true,
-          "signer": true
-        },
-        {
-          "name": "system_program",
-          "address": "11111111111111111111111111111111"
-        }
+        { "name": "game", "writable": true, "pda": { "seeds": [{ "kind": "const", "value": [103, 97, 109, 101] }, { "kind": "account", "path": "game.host", "account": "GameAccount" }] } },
+        { "name": "vault", "writable": true, "pda": { "seeds": [{ "kind": "const", "value": [118, 97, 117, 108, 116] }, { "kind": "account", "path": "game" }] } },
+        { "name": "winner", "writable": true, "signer": true },
+        { "name": "system_program", "address": "11111111111111111111111111111111" }
       ],
       "args": []
     },
     {
       "name": "create_game",
-      "discriminator": [
-        124,
-        69,
-        75,
-        66,
-        184,
-        220,
-        72,
-        206
-      ],
+      "discriminator": [124, 69, 75, 66, 184, 220, 72, 206],
       "accounts": [
-        {
-          "name": "game",
-          "writable": true,
-          "pda": {
-            "seeds": [
-              {
-                "kind": "const",
-                "value": [
-                  103,
-                  97,
-                  109,
-                  101
-                ]
-              },
-              {
-                "kind": "account",
-                "path": "host"
-              }
-            ]
-          }
-        },
-        {
-          "name": "vault",
-          "writable": true,
-          "pda": {
-            "seeds": [
-              {
-                "kind": "const",
-                "value": [
-                  118,
-                  97,
-                  117,
-                  108,
-                  116
-                ]
-              },
-              {
-                "kind": "account",
-                "path": "game"
-              }
-            ]
-          }
-        },
-        {
-          "name": "host",
-          "writable": true,
-          "signer": true
-        },
-        {
-          "name": "system_program",
-          "address": "11111111111111111111111111111111"
-        }
+        { "name": "game", "writable": true, "pda": { "seeds": [{ "kind": "const", "value": [103, 97, 109, 101] }, { "kind": "account", "path": "host" }] } },
+        { "name": "vault", "writable": true, "pda": { "seeds": [{ "kind": "const", "value": [118, 97, 117, 108, 116] }, { "kind": "account", "path": "game" }] } },
+        { "name": "host", "writable": true, "signer": true },
+        { "name": "system_program", "address": "11111111111111111111111111111111" }
       ],
-      "args": [
-        {
-          "name": "stake_amount",
-          "type": "u64"
-        }
-      ]
+      "args": [{ "name": "stake_amount", "type": "u64" }]
     },
     {
       "name": "join_and_stake",
-      "discriminator": [
-        144,
-        143,
-        186,
-        255,
-        137,
-        200,
-        75,
-        22
-      ],
+      "discriminator": [144, 143, 186, 255, 137, 200, 75, 22],
       "accounts": [
-        {
-          "name": "game",
-          "writable": true,
-          "pda": {
-            "seeds": [
-              {
-                "kind": "const",
-                "value": [
-                  103,
-                  97,
-                  109,
-                  101
-                ]
-              },
-              {
-                "kind": "account",
-                "path": "game.host",
-                "account": "GameAccount"
-              }
-            ]
-          }
-        },
-        {
-          "name": "vault",
-          "writable": true,
-          "pda": {
-            "seeds": [
-              {
-                "kind": "const",
-                "value": [
-                  118,
-                  97,
-                  117,
-                  108,
-                  116
-                ]
-              },
-              {
-                "kind": "account",
-                "path": "game"
-              }
-            ]
-          }
-        },
-        {
-          "name": "joiner",
-          "writable": true,
-          "signer": true
-        },
-        {
-          "name": "system_program",
-          "address": "11111111111111111111111111111111"
-        }
+        { "name": "game", "writable": true, "pda": { "seeds": [{ "kind": "const", "value": [103, 97, 109, 101] }, { "kind": "account", "path": "game.host", "account": "GameAccount" }] } },
+        { "name": "vault", "writable": true, "pda": { "seeds": [{ "kind": "const", "value": [118, 97, 117, 108, 116] }, { "kind": "account", "path": "game" }] } },
+        { "name": "joiner", "writable": true, "signer": true },
+        { "name": "system_program", "address": "11111111111111111111111111111111" }
       ],
       "args": []
     },
     {
       "name": "make_move",
-      "discriminator": [
-        78,
-        77,
-        152,
-        203,
-        222,
-        211,
-        208,
-        233
-      ],
+      "discriminator": [78, 77, 152, 203, 222, 211, 208, 233],
       "accounts": [
-        {
-          "name": "game",
-          "writable": true,
-          "pda": {
-            "seeds": [
-              {
-                "kind": "const",
-                "value": [
-                  103,
-                  97,
-                  109,
-                  101
-                ]
-              },
-              {
-                "kind": "account",
-                "path": "game.host",
-                "account": "GameAccount"
-              }
-            ]
-          }
-        },
-        {
-          "name": "player",
-          "signer": true
-        }
+        { "name": "game", "writable": true, "pda": { "seeds": [{ "kind": "const", "value": [103, 97, 109, 101] }, { "kind": "account", "path": "game.host", "account": "GameAccount" }] } },
+        { "name": "player", "signer": true }
       ],
       "args": [
-        {
-          "name": "from",
-          "type": "u8"
-        },
-        {
-          "name": "to",
-          "type": "u8"
-        }
+        { "name": "from", "type": "u8" },
+        { "name": "to", "type": "u8" },
+        { "name": "promotion_piece", "type": { "option": "u8" } }
       ]
     },
     {
       "name": "stake_host",
-      "discriminator": [
-        60,
-        221,
-        7,
-        130,
-        189,
-        244,
-        226,
-        143
-      ],
+      "discriminator": [60, 221, 7, 130, 189, 244, 226, 143],
       "accounts": [
-        {
-          "name": "game",
-          "writable": true,
-          "pda": {
-            "seeds": [
-              {
-                "kind": "const",
-                "value": [
-                  103,
-                  97,
-                  109,
-                  101
-                ]
-              },
-              {
-                "kind": "account",
-                "path": "host"
-              }
-            ]
-          }
-        },
-        {
-          "name": "vault",
-          "writable": true,
-          "pda": {
-            "seeds": [
-              {
-                "kind": "const",
-                "value": [
-                  118,
-                  97,
-                  117,
-                  108,
-                  116
-                ]
-              },
-              {
-                "kind": "account",
-                "path": "game"
-              }
-            ]
-          }
-        },
-        {
-          "name": "host",
-          "writable": true,
-          "signer": true,
-          "relations": [
-            "game"
-          ]
-        },
-        {
-          "name": "system_program",
-          "address": "11111111111111111111111111111111"
-        }
+        { "name": "game", "writable": true, "pda": { "seeds": [{ "kind": "const", "value": [103, 97, 109, 101] }, { "kind": "account", "path": "host" }] } },
+        { "name": "vault", "writable": true, "pda": { "seeds": [{ "kind": "const", "value": [118, 97, 117, 108, 116] }, { "kind": "account", "path": "game" }] } },
+        { "name": "host", "writable": true, "signer": true, "relations": ["game"] },
+        { "name": "system_program", "address": "11111111111111111111111111111111" }
+      ],
+      "args": []
+    },
+    {
+      "name": "cancel_game",
+      "discriminator": [93, 44, 243, 133, 207, 41, 129, 33],
+      "accounts": [
+        { "name": "game", "writable": true, "pda": { "seeds": [{ "kind": "const", "value": [103, 97, 109, 101] }, { "kind": "account", "path": "host" }] } },
+        { "name": "vault", "writable": true, "pda": { "seeds": [{ "kind": "const", "value": [118, 97, 117, 108, 116] }, { "kind": "account", "path": "game" }] } },
+        { "name": "host", "writable": true, "signer": true, "relations": ["game"] },
+        { "name": "system_program", "address": "11111111111111111111111111111111" }
+      ],
+      "args": []
+    },
+    {
+      "name": "resign",
+      "discriminator": [48, 211, 170, 200, 55, 148, 134, 88],
+      "accounts": [
+        { "name": "game", "writable": true, "pda": { "seeds": [{ "kind": "const", "value": [103, 97, 109, 101] }, { "kind": "account", "path": "game.host", "account": "GameAccount" }] } },
+        { "name": "player", "signer": true }
+      ],
+      "args": []
+    },
+    {
+      "name": "claim_timeout",
+      "discriminator": [196, 66, 42, 189, 107, 240, 196, 144],
+      "accounts": [
+        { "name": "game", "writable": true, "pda": { "seeds": [{ "kind": "const", "value": [103, 97, 109, 101] }, { "kind": "account", "path": "game.host", "account": "GameAccount" }] } },
+        { "name": "player", "signer": true }
+      ],
+      "args": []
+    },
+    {
+      "name": "close_game",
+      "discriminator": [106, 38, 102, 144, 193, 181, 223, 242],
+      "accounts": [
+        { "name": "game", "writable": true, "pda": { "seeds": [{ "kind": "const", "value": [103, 97, 109, 101] }, { "kind": "account", "path": "host" }] } },
+        { "name": "vault", "writable": true, "pda": { "seeds": [{ "kind": "const", "value": [118, 97, 117, 108, 116] }, { "kind": "account", "path": "game" }] } },
+        { "name": "host", "writable": true, "signer": true, "relations": ["game"] }
+      ],
+      "args": []
+    },
+    {
+      "name": "delegate_game",
+      "discriminator": [35, 88, 164, 219, 44, 187, 118, 139],
+      "accounts": [
+        { "name": "game", "writable": true, "pda": { "seeds": [{ "kind": "const", "value": [103, 97, 109, 101] }, { "kind": "account", "path": "host" }] } },
+        { "name": "host", "writable": true, "signer": true, "relations": ["game"] },
+        { "name": "delegation_program" },
+        { "name": "buffer_pda", "writable": true, "pda": { "seeds": [{ "kind": "const", "value": [98, 117, 102, 102, 101, 114] }, { "kind": "account", "path": "game" }] } },
+        { "name": "delegation_record_pda", "writable": true, "pda": { "seeds": [{ "kind": "const", "value": [100, 101, 108, 101, 103, 97, 116, 105, 111, 110, 95, 114, 101, 99, 111, 114, 100] }, { "kind": "account", "path": "game" }] } },
+        { "name": "delegation_metadata_pda", "writable": true, "pda": { "seeds": [{ "kind": "const", "value": [100, 101, 108, 101, 103, 97, 116, 105, 111, 110, 95, 109, 101, 116, 97, 100, 97, 116, 97] }, { "kind": "account", "path": "game" }] } },
+        { "name": "system_program", "address": "11111111111111111111111111111111" }
+      ],
+      "args": []
+    },
+    {
+      "name": "undelegate_game",
+      "discriminator": [170, 49, 209, 54, 225, 240, 59, 130],
+      "accounts": [
+        { "name": "game", "writable": true, "pda": { "seeds": [{ "kind": "const", "value": [103, 97, 109, 101] }, { "kind": "account", "path": "host" }] } },
+        { "name": "host", "writable": true, "signer": true, "relations": ["game"] },
+        { "name": "delegation_program" },
+        { "name": "buffer_pda", "writable": true, "pda": { "seeds": [{ "kind": "const", "value": [98, 117, 102, 102, 101, 114] }, { "kind": "account", "path": "game" }] } },
+        { "name": "delegation_record_pda", "writable": true, "pda": { "seeds": [{ "kind": "const", "value": [100, 101, 108, 101, 103, 97, 116, 105, 111, 110, 95, 114, 101, 99, 111, 114, 100] }, { "kind": "account", "path": "game" }] } },
+        { "name": "delegation_metadata_pda", "writable": true, "pda": { "seeds": [{ "kind": "const", "value": [100, 101, 108, 101, 103, 97, 116, 105, 111, 110, 95, 109, 101, 116, 97, 100, 97, 116, 97] }, { "kind": "account", "path": "game" }] } },
+        { "name": "system_program", "address": "11111111111111111111111111111111" }
       ],
       "args": []
     }
   ],
   "accounts": [
-    {
-      "name": "GameAccount",
-      "discriminator": [
-        168,
-        26,
-        58,
-        96,
-        13,
-        208,
-        230,
-        188
-      ]
-    },
-    {
-      "name": "VaultAccount",
-      "discriminator": [
-        230,
-        251,
-        241,
-        83,
-        139,
-        202,
-        93,
-        28
-      ]
-    }
+    { "name": "GameAccount", "discriminator": [168, 26, 58, 96, 13, 208, 230, 188] },
+    { "name": "VaultAccount", "discriminator": [230, 251, 241, 83, 139, 202, 93, 28] }
+  ],
+  "events": [
+    { "name": "GameCreatedEvent", "discriminator": [49, 61, 137, 210, 18, 195, 176, 241] },
+    { "name": "GameStakedEvent", "discriminator": [229, 189, 112, 204, 53, 220, 156, 14] },
+    { "name": "MoveMadeEvent", "discriminator": [46, 7, 103, 10, 147, 203, 42, 244] },
+    { "name": "GameOverEvent", "discriminator": [253, 36, 124, 142, 163, 184, 101, 173] },
+    { "name": "RewardClaimedEvent", "discriminator": [21, 19, 233, 152, 206, 129, 157, 240] }
   ],
   "errors": [
-    {
-      "code": 6000,
-      "name": "GameNotActive",
-      "msg": "Game not active"
-    },
-    {
-      "code": 6001,
-      "name": "NotYourTurn",
-      "msg": "Not your turn"
-    },
-    {
-      "code": 6002,
-      "name": "InvalidMove",
-      "msg": "Invalid move"
-    },
-    {
-      "code": 6003,
-      "name": "Unauthorized",
-      "msg": "Unauthorized"
-    },
-    {
-      "code": 6004,
-      "name": "GameNotFinished",
-      "msg": "Game not finished"
-    },
-    {
-      "code": 6005,
-      "name": "InvalidIndex",
-      "msg": "Invalid board index"
-    },
-    {
-      "code": 6006,
-      "name": "NotYourPiece",
-      "msg": "Not your piece"
-    },
-    {
-      "code": 6007,
-      "name": "InvalidDestination",
-      "msg": "Cannot capture own piece"
-    },
-    {
-      "code": 6008,
-      "name": "JoinerAlreadySet",
-      "msg": "Game already has a joiner"
-    },
-    {
-      "code": 6009,
-      "name": "HostStakeRequired",
-      "msg": "Host must stake first"
-    },
-    {
-      "code": 6010,
-      "name": "JoinerIsHost",
-      "msg": "Joiner cannot be host"
-    },
-    {
-      "code": 6011,
-      "name": "InvalidHostStakePhase",
-      "msg": "Game not waiting for host stake"
-    },
-    {
-      "code": 6012,
-      "name": "InvalidJoinPhase",
-      "msg": "Game not waiting for joiner"
-    }
+    { "code": 6000, "name": "GameNotActive", "msg": "Game not active" },
+    { "code": 6001, "name": "NotYourTurn", "msg": "Not your turn" },
+    { "code": 6002, "name": "InvalidMove", "msg": "Invalid move" },
+    { "code": 6003, "name": "Unauthorized", "msg": "Unauthorized" },
+    { "code": 6004, "name": "GameNotFinished", "msg": "Game not finished" },
+    { "code": 6005, "name": "InvalidIndex", "msg": "Invalid board index" },
+    { "code": 6006, "name": "NotYourPiece", "msg": "Not your piece" },
+    { "code": 6007, "name": "InvalidDestination", "msg": "Cannot capture own piece" },
+    { "code": 6008, "name": "JoinerAlreadySet", "msg": "Game already has a joiner" },
+    { "code": 6009, "name": "HostStakeRequired", "msg": "Host must stake first" },
+    { "code": 6010, "name": "JoinerIsHost", "msg": "Joiner cannot be host" },
+    { "code": 6011, "name": "InvalidHostStakePhase", "msg": "Game not waiting for host stake" },
+    { "code": 6012, "name": "InvalidJoinPhase", "msg": "Game not waiting for joiner" },
+    { "code": 6013, "name": "CannotCancel", "msg": "Game cannot be cancelled in current state" },
+    { "code": 6014, "name": "NotHost", "msg": "Only the host can cancel" },
+    { "code": 6015, "name": "CannotResign", "msg": "Game cannot be resigned in current state" },
+    { "code": 6016, "name": "GameAlreadyClaimed", "msg": "Game already claimed or closed" },
+    { "code": 6017, "name": "NoWinner", "msg": "No winner to claim" },
+    { "code": 6018, "name": "StakeTooLow", "msg": "Stake amount too low (minimum 0.01 SOL)" },
+    { "code": 6019, "name": "StakeTooHigh", "msg": "Stake amount too high (maximum 100 SOL)" }
   ],
   "types": [
     {
@@ -442,55 +171,26 @@
       "type": {
         "kind": "struct",
         "fields": [
-          {
-            "name": "host",
-            "type": "pubkey"
-          },
-          {
-            "name": "joiner",
-            "type": {
-              "option": "pubkey"
-            }
-          },
-          {
-            "name": "winner",
-            "type": {
-              "option": "pubkey"
-            }
-          },
-          {
-            "name": "board",
-            "type": {
-              "array": [
-                "u8",
-                64
-              ]
-            }
-          },
-          {
-            "name": "turn",
-            "type": "pubkey"
-          },
-          {
-            "name": "status",
-            "type": {
-              "defined": {
-                "name": "GameStatus"
-              }
-            }
-          },
-          {
-            "name": "stake_amount",
-            "type": "u64"
-          },
-          {
-            "name": "game_bump",
-            "type": "u8"
-          },
-          {
-            "name": "vault_bump",
-            "type": "u8"
-          }
+          { "name": "host", "type": "pubkey" },
+          { "name": "joiner", "type": { "option": "pubkey" } },
+          { "name": "winner", "type": { "option": "pubkey" } },
+          { "name": "board", "type": { "array": ["u8", 64] } },
+          { "name": "turn", "type": "pubkey" },
+          { "name": "status", "type": { "defined": { "name": "GameStatus" } } },
+          { "name": "stake_amount", "type": "u64" },
+          { "name": "game_bump", "type": "u8" },
+          { "name": "vault_bump", "type": "u8" },
+          { "name": "is_delegated", "type": "bool" },
+          { "name": "has_king_moved", "type": "bool" },
+          { "name": "has_white_kingside_rook_moved", "type": "bool" },
+          { "name": "has_white_queenside_rook_moved", "type": "bool" },
+          { "name": "has_black_kingside_rook_moved", "type": "bool" },
+          { "name": "has_black_queenside_rook_moved", "type": "bool" },
+          { "name": "en_passant_square", "type": { "option": "u8" } },
+          { "name": "last_move_from", "type": { "option": "u8" } },
+          { "name": "last_move_to", "type": { "option": "u8" } },
+          { "name": "last_move_timestamp", "type": "i64" },
+          { "name": "move_time_limit", "type": "i64" }
         ]
       }
     },
@@ -499,18 +199,14 @@
       "type": {
         "kind": "enum",
         "variants": [
-          {
-            "name": "WaitingForHostStake"
-          },
-          {
-            "name": "WaitingForJoiner"
-          },
-          {
-            "name": "Active"
-          },
-          {
-            "name": "Finished"
-          }
+          { "name": "WaitingForHostStake" },
+          { "name": "WaitingForJoiner" },
+          { "name": "Active" },
+          { "name": "InCheck" },
+          { "name": "Finished" },
+          { "name": "Claimed" },
+          { "name": "Cancelled" },
+          { "name": "Draw" }
         ]
       }
     },
@@ -519,14 +215,8 @@
       "type": {
         "kind": "struct",
         "fields": [
-          {
-            "name": "game",
-            "type": "pubkey"
-          },
-          {
-            "name": "bump",
-            "type": "u8"
-          }
+          { "name": "game", "type": "pubkey" },
+          { "name": "bump", "type": "u8" }
         ]
       }
     }

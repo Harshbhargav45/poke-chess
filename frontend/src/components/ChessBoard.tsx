@@ -64,6 +64,13 @@ export default function ChessBoard() {
     return "Loading";
   }, [gameAccount]);
 
+  const statusClass = useMemo(() => {
+    if (gameAccount?.status.inCheck) return "check";
+    if (gameAccount?.status.finished) return "finished";
+    if (gameAccount?.status.draw) return "draw";
+    return "";
+  }, [gameAccount]);
+
   // We rely fully on smart contract for moves validation, but we visually let the user try any square
   const candidateMoves = useMemo(() => {
     return [];
@@ -106,7 +113,14 @@ export default function ChessBoard() {
     setSelectedIndex(null);
     setLastMove([selectedIndex, index]);
 
-    makeMove(selectedIndex, index).catch(() => {
+    // Check if this is a pawn promotion move
+    const piece = movingVal;
+    const pieceType = piece & 7;
+    const pieceColor = piece & (WHITE | BLACK);
+    const promotionRow = pieceColor === WHITE ? 7 : 0;
+    const isPromotion = pieceType === (1) && Math.floor(index / 8) === promotionRow;
+
+    makeMove(selectedIndex, index, isPromotion ? 5 : null).catch(() => {
       // Revert optimism if error
       if (gameAccount?.board) {
         setLocalBoard([...gameAccount.board]);

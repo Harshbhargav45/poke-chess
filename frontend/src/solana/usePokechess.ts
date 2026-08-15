@@ -199,12 +199,12 @@ export function usePokechess() {
     }
   };
 
-  const makeMove = async (from: number, to: number) => {
+  const makeMove = async (from: number, to: number, promotionPiece: number | null = null) => {
     if (!program || !gamePda || !wallet) return;
     setLoading(true);
     try {
       const tx = await program.methods
-        .makeMove(from, to)
+        .makeMove(from, to, promotionPiece)
         .accounts({
           game: gamePda,
           player: wallet.publicKey,
@@ -284,6 +284,28 @@ export function usePokechess() {
     try {
       const tx = await program.methods
         .resign()
+        .accounts({
+          game: gamePda,
+          player: wallet.publicKey,
+        } as any)
+        .transaction();
+
+      await sendTx(tx);
+      await fetchGame(gamePda, program);
+    } catch (err) {
+      console.error(err);
+      setError(err instanceof Error ? err.message : String(err));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const claimTimeout = async () => {
+    if (!program || !gamePda || !wallet) return;
+    setLoading(true);
+    try {
+      const tx = await program.methods
+        .claimTimeout()
         .accounts({
           game: gamePda,
           player: wallet.publicKey,
@@ -433,6 +455,7 @@ export function usePokechess() {
     claimReward,
     cancelGame,
     resign,
+    claimTimeout,
     delegateGame,
     undelegateGame,
     refreshGame,

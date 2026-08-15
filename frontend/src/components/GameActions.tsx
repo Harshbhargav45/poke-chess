@@ -21,6 +21,7 @@ export default function GameActions({
     claimReward,
     cancelGame,
     resign,
+    claimTimeout,
     delegateGame,
     undelegateGame,
     refreshGame,
@@ -140,14 +141,13 @@ export default function GameActions({
           <div className="btn-row">
             <button
               className="btn ghost"
-              onClick={refreshGame}
-              disabled={!gamePda}
+              onClick={() => refreshGame()}
             >
               Refresh
             </button>
             <button
               className="btn ghost"
-              onClick={resetLocal}
+              onClick={() => resetLocal()}
             >
               Reset
             </button>
@@ -172,6 +172,16 @@ export default function GameActions({
               disabled={!canResign}
             >
               Resign
+            </button>
+          </div>
+          <div className="btn-row" style={{ marginTop: 8 }}>
+            <button
+              className="btn warning"
+              onClick={claimTimeout}
+              disabled={!canResign}
+              title="Claim win if opponent timed out (24h limit)"
+            >
+              Claim timeout
             </button>
           </div>
           <div className="btn-row" style={{ marginTop: 8 }}>
