@@ -55,9 +55,7 @@ pub fn make_move(ctx: Context<MakeMove>, from: u8, to: u8) -> Result<()> {
     if destination_piece == BLACK_KING || destination_piece == WHITE_KING {
         game.status = GameStatus::Finished;
         game.winner = Some(ctx.accounts.player.key());
-    }
-
-    if let Some(j) = game.joiner {
+    } else if let Some(j) = game.joiner {
         game.turn = if game.turn == game.host { j } else { game.host };
     }
 
