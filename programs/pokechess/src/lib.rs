@@ -33,4 +33,8 @@ pub mod pokechess {
     pub fn claim_reward(ctx: Context<ClaimReward>) -> Result<()> {
         claim::claim_reward(ctx)
     }
+
+    pub fn cancel_game(ctx: Context<CancelGame>) -> Result<()> {
+        cancel::cancel_game(ctx)
+    }
 }

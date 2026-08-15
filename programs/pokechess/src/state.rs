@@ -6,6 +6,9 @@ pub enum GameStatus {
     WaitingForJoiner,
     Active,
     Finished,
+    Claimed,
+    Cancelled,
+    Draw,
 }
 
 #[account]
