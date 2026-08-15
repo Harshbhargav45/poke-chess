@@ -68,6 +68,9 @@ pub fn handler(ctx: Context<CreateGame>, stake_amount: u64) -> Result<()> {
     game.last_move_from = None;
     game.last_move_to = None;
 
+    game.last_move_timestamp = 0;
+    game.move_time_limit = 86400; // 24 hours per move
+
     ctx.accounts.vault.game = game.key();
     ctx.accounts.vault.bump = game.vault_bump;
 

@@ -53,4 +53,8 @@ pub mod pokechess {
     pub fn undelegate_game(ctx: Context<UndelegateGame>) -> Result<()> {
         undelegate::undelegate_game(ctx)
     }
+
+    pub fn claim_timeout(ctx: Context<ClaimTimeout>) -> Result<()> {
+        timeout::claim_timeout(ctx)
+    }
 }

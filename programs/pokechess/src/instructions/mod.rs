@@ -7,6 +7,7 @@ pub mod resign;
 pub mod close;
 pub mod delegate;
 pub mod undelegate;
+pub mod timeout;
 
 pub use create_game::*;
 pub use stake::*;
@@ -17,3 +18,4 @@ pub use resign::*;
 pub use close::*;
 pub use delegate::*;
 pub use undelegate::*;
+pub use timeout::*;

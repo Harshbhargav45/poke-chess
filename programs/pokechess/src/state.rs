@@ -36,12 +36,17 @@ pub struct GameAccount {
     pub en_passant_square: Option<u8>,
     pub last_move_from: Option<u8>,
     pub last_move_to: Option<u8>,
+
+    // Time control state
+    pub last_move_timestamp: i64,
+    pub move_time_limit: i64,
 }
 
 impl GameAccount {
     pub const SIZE: usize =
         8 + 32 + (1 + 32) + (1 + 32) + 64 + 32 + 1 + 8 + 1 + 1 + 1
-        + 1 + 1 + 1 + 1 + 1 + (1 + 1) + (1 + 1) + (1 + 1);
+        + 1 + 1 + 1 + 1 + 1 + (1 + 1) + (1 + 1) + (1 + 1)
+        + 8 + 8;
 }
 
 #[account]

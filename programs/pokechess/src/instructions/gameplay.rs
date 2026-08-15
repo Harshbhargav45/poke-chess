@@ -129,6 +129,10 @@ pub fn make_move(ctx: Context<MakeMove>, from: u8, to: u8, promotion_piece: Opti
     game.last_move_from = Some(from);
     game.last_move_to = Some(to);
 
+    // Record timestamp for time controls
+    let clock = Clock::get()?;
+    game.last_move_timestamp = clock.unix_timestamp;
+
     // Check for king capture (legacy win condition)
     if destination_piece == BLACK_KING || destination_piece == WHITE_KING {
         game.status = GameStatus::Finished;
