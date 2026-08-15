@@ -12,6 +12,43 @@ pub enum GameStatus {
     Draw,
 }
 
+#[event]
+pub struct GameCreatedEvent {
+    pub game: Pubkey,
+    pub host: Pubkey,
+    pub stake_amount: u64,
+}
+
+#[event]
+pub struct GameStakedEvent {
+    pub game: Pubkey,
+    pub player: Pubkey,
+    pub status: GameStatus,
+}
+
+#[event]
+pub struct MoveMadeEvent {
+    pub game: Pubkey,
+    pub player: Pubkey,
+    pub from: u8,
+    pub to: u8,
+    pub status: GameStatus,
+}
+
+#[event]
+pub struct GameOverEvent {
+    pub game: Pubkey,
+    pub winner: Option<Pubkey>,
+    pub status: GameStatus,
+}
+
+#[event]
+pub struct RewardClaimedEvent {
+    pub game: Pubkey,
+    pub winner: Pubkey,
+    pub amount: u64,
+}
+
 #[account]
 pub struct GameAccount {
     pub host: Pubkey,

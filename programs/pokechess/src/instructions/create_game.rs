@@ -74,5 +74,11 @@ pub fn handler(ctx: Context<CreateGame>, stake_amount: u64) -> Result<()> {
     ctx.accounts.vault.game = game.key();
     ctx.accounts.vault.bump = game.vault_bump;
 
+    emit!(GameCreatedEvent {
+        game: game.key(),
+        host: ctx.accounts.host.key(),
+        stake_amount,
+    });
+
     Ok(())
 }

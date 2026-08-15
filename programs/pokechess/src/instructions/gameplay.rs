@@ -137,6 +137,21 @@ pub fn make_move(ctx: Context<MakeMove>, from: u8, to: u8, promotion_piece: Opti
     if destination_piece == BLACK_KING || destination_piece == WHITE_KING {
         game.status = GameStatus::Finished;
         game.winner = Some(ctx.accounts.player.key());
+
+        emit!(MoveMadeEvent {
+            game: game.key(),
+            player: ctx.accounts.player.key(),
+            from,
+            to,
+            status: GameStatus::Finished,
+        });
+
+        emit!(GameOverEvent {
+            game: game.key(),
+            winner: game.winner,
+            status: GameStatus::Finished,
+        });
+
         return Ok(());
     }
 
@@ -154,9 +169,21 @@ pub fn make_move(ctx: Context<MakeMove>, from: u8, to: u8, promotion_piece: Opti
         // Checkmate
         game.status = GameStatus::Finished;
         game.winner = Some(ctx.accounts.player.key());
+
+        emit!(GameOverEvent {
+            game: game.key(),
+            winner: game.winner,
+            status: GameStatus::Finished,
+        });
     } else if !in_check && !has_legal {
         // Stalemate - draw
         game.status = GameStatus::Draw;
+
+        emit!(GameOverEvent {
+            game: game.key(),
+            winner: None,
+            status: GameStatus::Draw,
+        });
     } else if in_check {
         game.status = GameStatus::InCheck;
         // Switch turn
@@ -170,6 +197,14 @@ pub fn make_move(ctx: Context<MakeMove>, from: u8, to: u8, promotion_piece: Opti
             game.turn = if game.turn == game.host { j } else { game.host };
         }
     }
+
+    emit!(MoveMadeEvent {
+        game: game.key(),
+        player: ctx.accounts.player.key(),
+        from,
+        to,
+        status: game.status,
+    });
 
     Ok(())
 }

@@ -43,6 +43,13 @@ pub fn stake_host(ctx: Context<StakeHost>) -> Result<()> {
     )?;
 
     ctx.accounts.game.status = GameStatus::WaitingForJoiner;
+
+    emit!(GameStakedEvent {
+        game: ctx.accounts.game.key(),
+        player: ctx.accounts.host.key(),
+        status: GameStatus::WaitingForJoiner,
+    });
+
     Ok(())
 }
 
@@ -89,5 +96,12 @@ pub fn join_and_stake(ctx: Context<JoinAndStake>) -> Result<()> {
     )?;
 
     ctx.accounts.game.status = GameStatus::Active;
+
+    emit!(GameStakedEvent {
+        game: ctx.accounts.game.key(),
+        player: ctx.accounts.joiner.key(),
+        status: GameStatus::Active,
+    });
+
     Ok(())
 }

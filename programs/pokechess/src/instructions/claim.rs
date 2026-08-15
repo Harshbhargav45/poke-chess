@@ -56,5 +56,11 @@ pub fn claim_reward(ctx: Context<ClaimReward>) -> Result<()> {
     let game = &mut ctx.accounts.game;
     game.status = GameStatus::Claimed;
 
+    emit!(RewardClaimedEvent {
+        game: game.key(),
+        winner: ctx.accounts.winner.key(),
+        amount,
+    });
+
     Ok(())
 }
